@@ -63,7 +63,7 @@ export default async function BlogPostPage({ params }: Params) {
               </span>
               {/* PDF download */}
               <div className="ml-auto">
-                <DownloadPDFButton title={post.title} author={SITE_CONFIG.author} date={format(new Date(post.date), 'MMMM d, yyyy')} />
+                <DownloadPDFButton title={post.title} author={SITE_CONFIG.author} date={format(new Date(post.date), 'MMMM d, yyyy')} slug={post.slug} />
               </div>
             </div>
 
@@ -103,7 +103,7 @@ export default async function BlogPostPage({ params }: Params) {
                 className="flex items-center gap-1.5 font-mono text-xs text-[var(--color-muted)] hover:text-[var(--color-accent)] transition-colors">
                 <ArrowLeft size={12} /> All posts
               </Link>
-              <DownloadPDFButton title={post.title} author={SITE_CONFIG.author} date={format(new Date(post.date), 'MMMM d, yyyy')} />
+              <DownloadPDFButton title={post.title} author={SITE_CONFIG.author} date={format(new Date(post.date), 'MMMM d, yyyy')} slug={post.slug} />
             </div>
           </div>
         </article>

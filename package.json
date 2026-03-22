@@ -21,6 +21,7 @@
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.1",
     "lucide-react": "0.577.0",
+    "marked": "^17.0.5",
     "next": "^15.5.13",
     "next-mdx-remote": "6.0.0",
     "react": "^19.2.4",
