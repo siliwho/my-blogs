@@ -53,4 +53,13 @@ export const PDFS: PDFItem[] = [
     date: '2023-11-02',
     tags: ['CAN', 'Protocol', 'Automotive'],
   },
+  {
+    id: 'AELD_project',
+    title: 'Project pdf',
+    description: 'my WELD course project report',
+    category: 'Notes',
+    filename: 'AELD_project.pdf',
+    date: '2026-03-22',
+    tags: ['C', 'Vivado', 'Vitis', 'FPGA'],
+  },
 ];
