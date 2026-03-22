@@ -1,51 +1,142 @@
 #!/usr/bin/env node
-// Usage: npm run new-post
-// Creates a new blog post with today's date and a slug from the title
+/**
+ * new-post.js — Create a new blog post
+ * Usage: npm run new-post
+ */
 
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
+const fs = require("fs");
+const path = require("path");
+const rl = require("readline").createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const ask = (q) => new Promise((res) => rl.question(q, res));
 
-function ask(q) {
-  return new Promise(resolve => rl.question(q, resolve));
-}
+const slugify = (s) =>
+  s
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
 
-function slugify(str) {
-  return str.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').trim();
-}
+const CATEGORIES = [
+  "Embedded Systems",
+  "Firmware",
+  "Kernel / OS",
+  "Systems Programming",
+  "General",
+];
 
 async function main() {
-  console.log('\n📝 New Blog Post\n');
-  const title = await ask('Title: ');
-  const description = await ask('Description: ');
-  const category = await ask('Category (e.g. Embedded Systems): ');
-  const tagsRaw = await ask('Tags (comma-separated): ');
+  console.log("\n\x1b[36m┌─────────────────────────────┐\x1b[0m");
+  console.log("\x1b[36m│  📝  New Blog Post           │\x1b[0m");
+  console.log("\x1b[36m└─────────────────────────────┘\x1b[0m\n");
+
+  console.log("\x1b[33mCategories:\x1b[0m");
+  CATEGORIES.forEach((c, i) => console.log(`  \x1b[90m[${i + 1}]\x1b[0m ${c}`));
+  console.log();
+
+  const title = await ask("\x1b[32m Title       \x1b[0m: ");
+  const description = await ask("\x1b[32m Description \x1b[0m: ");
+  const catInput = await ask(
+    `\x1b[32m Category    \x1b[0m [1-${CATEGORIES.length}]: `,
+  );
+  const tagsRaw = await ask("\x1b[32m Tags        \x1b[0m (comma-separated): ");
+  const draftInput = await ask("\x1b[32m Draft?      \x1b[0m [Y/n]: ");
   rl.close();
 
-  const slug = slugify(title);
-  const date = new Date().toISOString().split('T')[0];
-  const tags = tagsRaw.split(',').map(t => t.trim()).filter(Boolean);
+  if (!title.trim()) {
+    console.error("\x1b[31m✖ Title is required.\x1b[0m");
+    process.exit(1);
+  }
 
-  const frontmatter = `---
+  const catIdx = parseInt(catInput) - 1;
+  const category = CATEGORIES[catIdx] ?? CATEGORIES[0];
+  const tags = tagsRaw
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+  const draft = !draftInput.trim() || draftInput.toLowerCase() !== "n";
+  const slug = slugify(title);
+  const date = new Date().toISOString().split("T")[0];
+
+  const content = `---
 title: "${title}"
 description: "${description}"
 date: "${date}"
-tags: [${tags.map(t => `"${t}"`).join(', ')}]
+tags: [${tags.map((t) => `"${t}"`).join(", ")}]
 category: "${category}"
-draft: true
+draft: ${draft}
 ---
 
 # ${title}
 
-Write your post here...
+${description}
+
+## Introduction
+
+Write your introduction here.
+
+## Main Content
+
+Your content goes here. You can use:
+
+- **Bold**, *italic*, \`inline code\`
+- Code blocks with syntax highlighting
+- Images from \`public/blog-images/your-image.png\` → write as \`![alt text](your-image.png)\`
+- Callouts: \`<Callout type="tip">text</Callout>\` (tip / info / warn / error)
+- Figures with captions: \`<Figure src="img.png" caption="My caption" />\`
+
+\`\`\`c
+// Example code block
+#include <stdio.h>
+
+int main(void) {
+    printf("Hello, kernel!\\n");
+    return 0;
+}
+\`\`\`
+
+## Conclusion
+
+Wrap up here.
 `;
 
-  const filepath = path.join(process.cwd(), 'content', 'blog', `${slug}.md`);
-  fs.writeFileSync(filepath, frontmatter);
-  console.log(`\n✅ Created: content/blog/${slug}.md`);
-  console.log('   Set draft: false when ready to publish.\n');
+  const outDir = path.join(process.cwd(), "content", "blog");
+  const outPath = path.join(outDir, `${slug}.md`);
+
+  if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+
+  if (fs.existsSync(outPath)) {
+    const overwrite = await ask(
+      `\x1b[33m⚠  ${slug}.md already exists. Overwrite? [y/N]: \x1b[0m`,
+    );
+    if (overwrite.toLowerCase() !== "y") {
+      console.log("Aborted.");
+      process.exit(0);
+    }
+  }
+
+  fs.writeFileSync(outPath, content);
+
+  console.log(
+    `\n\x1b[32m✔ Created:\x1b[0m  content/blog/\x1b[1m${slug}.md\x1b[0m`,
+  );
+  console.log(`\x1b[90m  Title:    \x1b[0m${title}`);
+  console.log(`\x1b[90m  Category: \x1b[0m${category}`);
+  console.log(`\x1b[90m  Tags:     \x1b[0m${tags.join(", ") || "(none)"}`);
+  console.log(`\x1b[90m  Draft:    \x1b[0m${draft}`);
+  if (draft) {
+    console.log(
+      `\n\x1b[33m  → Set \x1b[1mdraft: false\x1b[0m\x1b[33m in the frontmatter when ready to publish.\x1b[0m`,
+    );
+  }
+  console.log();
 }
 
-main().catch(console.error);
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
