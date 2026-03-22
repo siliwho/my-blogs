@@ -366,3 +366,132 @@ pre code {
 
   .prose img { border-color: #d0d7de !important; page-break-inside: avoid; }
 }
+
+/* ════════════════════════════════════════════════════
+   SHIKI / rehype-pretty-code syntax highlighting
+   ════════════════════════════════════════════════════ */
+
+/* The code block outer wrapper from rehype-pretty-code */
+[data-rehype-pretty-code-figure] {
+  margin: 0;
+}
+
+/* Title bar above code block: ```js title="main.c" */
+[data-rehype-pretty-code-title] {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  background: var(--color-code-bg);
+  border: 1px solid var(--color-border);
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+}
+
+[data-rehype-pretty-code-title] + pre {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-top: 0 !important;
+}
+
+/* Caption below code block: ```js caption="Output" */
+[data-rehype-pretty-code-caption] {
+  display: block;
+  text-align: center;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* Make shiki background match our theme */
+[data-rehype-pretty-code-figure] pre {
+  background: var(--color-code-bg) !important;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow-x: auto;
+  padding: 1rem 1rem 1rem 1rem;
+  font-size: 0.8rem;
+  line-height: 1.8;
+  tab-size: 2;
+}
+
+/* Inline code highlighted by shiki */
+[data-rehype-pretty-code-figure]:not(:has(pre)) code {
+  background: var(--color-code-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  font-size: 0.82em;
+  color: var(--color-code-text);
+}
+
+/* Line numbers — enabled with showLineNumbers on fence */
+code[data-line-numbers] {
+  counter-reset: line;
+}
+code[data-line-numbers] > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 1.8rem;
+  margin-right: 1.2rem;
+  text-align: right;
+  color: var(--color-muted);
+  opacity: 0.4;
+  user-select: none;
+  font-size: 0.75em;
+}
+
+/* Highlighted lines: ```c {2,4-6} */
+[data-line].highlighted-line {
+  background: var(--color-accent-dim);
+  border-left: 2px solid var(--color-accent);
+  margin: 0 -1rem;
+  padding: 0 1rem;
+}
+
+/* Highlighted words: ```c /word/ */
+.highlighted-word {
+  background: var(--color-accent-dim);
+  border: 1px solid var(--color-accent)/30;
+  border-radius: 3px;
+  padding: 0.1em 0.2em;
+}
+
+/* Each line of code */
+[data-line] {
+  padding: 0 0.25rem;
+  border-left: 2px solid transparent;
+}
+
+/* ── KaTeX math rendering ── */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1rem 0;
+}
+.katex {
+  font-size: 1.05em;
+  color: var(--color-text);
+}
+
+/* ── Steps counter component ── */
+.steps-container > div {
+  counter-increment: step-counter;
+}
+.steps-container > div .step-number::before {
+  content: counter(step-counter);
+}
+
+/* ── Heading anchor links ── */
+.prose h2 a,
+.prose h3 a,
+.prose h4 a {
+  text-decoration: none !important;
+  color: var(--color-accent);
+}
