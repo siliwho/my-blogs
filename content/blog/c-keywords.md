@@ -4,7 +4,7 @@ description: "keywords in c explained"
 date: "2026-03-22"
 tags: ["C", "gdb"]
 category: "Systems Programming"
-draft: true
+draft: false
 ---
 
 # C-keywords
@@ -19,7 +19,7 @@ Write your introduction here.
 
 Your content goes here. You can use:
 
-- **Bold**, *italic*, `inline code`
+- **Bold**, _italic_, `inline code`
 - Code blocks with syntax highlighting
 - Images from `public/blog-images/your-image.png` → write as `![alt text](your-image.png)`
 - Callouts: `<Callout type="tip">text</Callout>` (tip / info / warn / error)
