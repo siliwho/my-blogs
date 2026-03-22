@@ -368,69 +368,68 @@ pre code {
 }
 
 /* ════════════════════════════════════════════════════
-   SHIKI / rehype-pretty-code syntax highlighting
+   SHIKI / rehype-pretty-code — code block styles
    ════════════════════════════════════════════════════ */
 
-/* The code block outer wrapper from rehype-pretty-code */
+/* rehype-pretty-code wraps everything in a <figure> */
 [data-rehype-pretty-code-figure] {
-  margin: 0;
+  margin: 1.25rem 0;
 }
 
-/* Title bar above code block: ```js title="main.c" */
+/* Title bar: ```c title="main.c" */
 [data-rehype-pretty-code-title] {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
   font-family: 'Geist Mono', monospace;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--color-muted);
   background: var(--color-code-bg);
   border: 1px solid var(--color-border);
   border-bottom: none;
   border-radius: 10px 10px 0 0;
+  padding: 0.45rem 1rem;
+  letter-spacing: 0.04em;
 }
 
+/* When title present, remove top radius from pre below */
+[data-rehype-pretty-code-title] + div > pre,
 [data-rehype-pretty-code-title] + pre {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
   margin-top: 0 !important;
+  padding-top: 0.9rem !important;
 }
 
-/* Caption below code block: ```js caption="Output" */
-[data-rehype-pretty-code-caption] {
-  display: block;
-  text-align: center;
-  font-family: 'Geist Mono', monospace;
-  font-size: 0.7rem;
-  color: var(--color-muted);
-  margin-top: 0.5rem;
-  font-style: italic;
-}
-
-/* Make shiki background match our theme */
+/* Override shiki inline background — use our theme var instead */
 [data-rehype-pretty-code-figure] pre {
-  background: var(--color-code-bg) !important;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  overflow-x: auto;
-  padding: 1rem 1rem 1rem 1rem;
-  font-size: 0.8rem;
-  line-height: 1.8;
-  tab-size: 2;
+  background-color: var(--color-code-bg) !important;
 }
 
-/* Inline code highlighted by shiki */
-[data-rehype-pretty-code-figure]:not(:has(pre)) code {
-  background: var(--color-code-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  padding: 0.1em 0.35em;
-  font-size: 0.82em;
-  color: var(--color-code-text);
+/* Each token line */
+[data-line] {
+  display: block;
+  padding: 0 0.25rem;
+  border-left: 2px solid transparent;
+  min-height: 1.4rem;
 }
 
-/* Line numbers — enabled with showLineNumbers on fence */
+/* Highlighted lines: ```c {2,4-6} */
+[data-line].highlighted-line,
+[data-highlighted-line] {
+  background: rgba(var(--hl-rgb, 88,166,255), 0.08);
+  border-left: 2px solid var(--color-accent) !important;
+  margin: 0 -1.25rem;
+  padding: 0 1.25rem;
+}
+
+/* Highlighted words/chars */
+.highlighted-word,
+[data-highlighted-chars] {
+  background: rgba(var(--hl-rgb, 88,166,255), 0.15);
+  border: 1px solid rgba(var(--hl-rgb, 88,166,255), 0.3);
+  border-radius: 3px;
+  padding: 0.1em 0.2em;
+}
+
+/* Line numbers: showLineNumbers */
 code[data-line-numbers] {
   counter-reset: line;
 }
@@ -438,60 +437,37 @@ code[data-line-numbers] > [data-line]::before {
   counter-increment: line;
   content: counter(line);
   display: inline-block;
-  width: 1.8rem;
-  margin-right: 1.2rem;
+  width: 1.6rem;
+  margin-right: 1.25rem;
   text-align: right;
   color: var(--color-muted);
-  opacity: 0.4;
+  opacity: 0.35;
   user-select: none;
-  font-size: 0.75em;
+  font-size: 0.72rem;
 }
 
-/* Highlighted lines: ```c {2,4-6} */
-[data-line].highlighted-line {
-  background: var(--color-accent-dim);
-  border-left: 2px solid var(--color-accent);
-  margin: 0 -1rem;
-  padding: 0 1rem;
-}
-
-/* Highlighted words: ```c /word/ */
-.highlighted-word {
-  background: var(--color-accent-dim);
-  border: 1px solid var(--color-accent)/30;
-  border-radius: 3px;
-  padding: 0.1em 0.2em;
-}
-
-/* Each line of code */
-[data-line] {
-  padding: 0 0.25rem;
-  border-left: 2px solid transparent;
-}
-
-/* ── KaTeX math rendering ── */
+/* ── KaTeX math ── */
 .katex-display {
   overflow-x: auto;
   overflow-y: hidden;
   padding: 1rem 0;
+  margin: 1.25rem 0;
 }
-.katex {
-  font-size: 1.05em;
-  color: var(--color-text);
-}
+.katex { font-size: 1.05em; color: var(--color-text); }
 
-/* ── Steps counter component ── */
-.steps-container > div {
-  counter-increment: step-counter;
-}
-.steps-container > div .step-number::before {
-  content: counter(step-counter);
+/* ── Step counter ── */
+.step-num::before {
+  content: counter(step);
 }
 
 /* ── Heading anchor links ── */
-.prose h2 a,
-.prose h3 a,
-.prose h4 a {
+.prose h2 > a,
+.prose h3 > a,
+.prose h4 > a {
   text-decoration: none !important;
+  color: inherit;
+}
+.prose h2 > a:hover,
+.prose h3 > a:hover {
   color: var(--color-accent);
 }
