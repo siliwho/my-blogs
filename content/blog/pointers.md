@@ -9,4 +9,4 @@ draft: false
 
 # Pointers
 
-![alt text](image.png)
+![alt text](pointer1.png)
