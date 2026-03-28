@@ -198,9 +198,9 @@ So output:
 ```text
 A
 ```
+![pic 5](pointer5.png)
 
-This is where it gets interesting.
- wrote:
+I wrote:
 
 ```c
 *in_ptr = 0x48492100;
