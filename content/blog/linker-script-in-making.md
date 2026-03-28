@@ -1,0 +1,40 @@
+---
+title: "Linker Script in making"
+description: "write my own linker script to learn it"
+date: "2026-03-26"
+tags: ["linker script", "systems programming", "firmware"]
+category: "Systems Programming"
+draft: true
+---
+
+# Linker Script in making
+
+write my own linker script to learn it
+
+## Introduction
+
+Write your introduction here.
+
+## Main Content
+
+Your content goes here. You can use:
+
+- **Bold**, *italic*, `inline code`
+- Code blocks with syntax highlighting
+- Images from `public/blog-images/your-image.png` → write as `![alt text](your-image.png)`
+- Callouts: `<Callout type="tip">text</Callout>` (tip / info / warn / error)
+- Figures with captions: `<Figure src="img.png" caption="My caption" />`
+
+```c
+// Example code block
+#include <stdio.h>
+
+int main(void) {
+    printf("Hello, kernel!\n");
+    return 0;
+}
+```
+
+## Conclusion
+
+Wrap up here.

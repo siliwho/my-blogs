@@ -1,0 +1,12 @@
+---
+title: "Pointers"
+description: "reading about pointers"
+date: "2026-03-28"
+tags: ["pointers", "memory", "systems programming"]
+category: "Systems Programming"
+draft: true
+---
+
+# Pointers
+
+![alt text](image.png)
