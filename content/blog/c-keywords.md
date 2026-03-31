@@ -561,7 +561,7 @@ typedef union {
 | Active members             | All simultaneously             | One at a time (logically)        |
 | Type punning (C)           | Not applicable                 | Defined behaviour (C11 §6.5.2.3) |
 | Type punning (C++)         | Not applicable                 | UB — use `memcpy` instead        |
-| MMIO overlay               | Use bitfields (with caveats)   | union{uint32_t raw; struct{...}} |
+| MMIO overlay               | Use bitfields (with caveats)   | `union{uint32_t raw; struct{...}}` |
 | Protocol frames            | `__attribute__((packed))`      | Rarely used alone                |
 | Kernel linked lists        | `container_of` + embedded node | Not typically used               |
 
