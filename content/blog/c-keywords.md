@@ -9,18 +9,6 @@ draft: false
 
 # C Keywords
 
-
----
-title: "C-keywords"
-description: "keywords in c explained"
-date: "2026-03-22"
-tags: ["C", "gdb"]
-category: "Systems Programming"
-draft: false
----
-
-# C Keywords
-
 ---
 
 ## Structs
