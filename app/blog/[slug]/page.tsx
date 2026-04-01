@@ -93,8 +93,7 @@ export default async function BlogPostPage({ params }: Params) {
 
           {/* MDX content */}
           <div className="prose prose-invert max-w-none">
-            <MDXContent source={post.content} />
-          </div>
+              <MDXContent source={post.content} slug={slug} />          </div>
 
           {/* Footer */}
           <div className="mt-16 pt-8 border-t border-[var(--color-border)] no-print">
